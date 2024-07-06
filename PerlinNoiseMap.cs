@@ -28,12 +28,12 @@ public class PerlinNoiseMap : MonoBehaviour
         new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, - 1) };
     public int map_width = 16;
     public int map_height = 9;
-    [Range(0f, 1f)]
-    public float positive_weight = 0.5f;
-    [Range(0f, 0.5f)]
+    [Range(0f, 0.25f)]
+    public float positive_weight = 0.1f;
+    [Range(0f, 0.06f)]
     public float sub_positive_weight = 0.1f;
-    [Range(0f,1f)]
-    public float negative_weight = 0.5f;
+    [Range(0f,0.1f)]
+    public float negative_weight = 0.05f;
     void Start()
     {
         tileset.Add((int)tileType.plains, prefab_plains);
@@ -80,78 +80,76 @@ public class PerlinNoiseMap : MonoBehaviour
         {
             for (int x = 0; x < map_width; x++)
             {
-                
-                if (y + random_dir[DirCount[y, x]].y >= 0  && y + random_dir[DirCount[y, x]].y < map_height && x + random_dir[DirCount[y, x]].x >= 0 && x + random_dir[DirCount[y, x]].x < map_width)
-                {
-                    switch (DirCount[y,x])
-                    {
-                        case 0:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x + 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x] += sub_positive_weight;
-                            if (x -1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y, x - 1] += sub_positive_weight;
-                            break;
-                        case 1:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x + 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x - 1]+= sub_positive_weight;
-                            break;
-                        case 2:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x - 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y, x + 1] += sub_positive_weight;
-                            break;
-                        case 3:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y, x - 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x - 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x - 1] += sub_positive_weight;
 
-                            break;
-                        case 4:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y, x + 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y + 1, x + 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x + 1] += sub_positive_weight;
-                            break;
-                        case 5:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x - 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y , x - 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x] += sub_positive_weight;
-                            break;
-                        case 6:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x - 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x + 1] += sub_positive_weight;
-                            break;
-                        case 7:
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x + 1] += positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y, x + 1] += sub_positive_weight;
-                            if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
-                                value[y - 1, x] += sub_positive_weight;
-                            break;
-                    }
+                switch (DirCount[y, x])
+                {
+                    case 0:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x + 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x - 1] += sub_positive_weight;
+                        break;
+                    case 1:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x + 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x - 1] += sub_positive_weight;
+                        break;
+                    case 2:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x - 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x + 1] += sub_positive_weight;
+                        break;
+                    case 3:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x - 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x - 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x - 1] += sub_positive_weight;
+
+                        break;
+                    case 4:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x + 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y + 1, x + 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x + 1] += sub_positive_weight;
+                        break;
+                    case 5:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x - 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x - 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x] += sub_positive_weight;
+                        break;
+                    case 6:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x - 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x + 1] += sub_positive_weight;
+                        break;
+                    case 7:
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x + 1] += positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y, x + 1] += sub_positive_weight;
+                        if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < map_width && y + 1 < map_height)
+                            value[y - 1, x] += sub_positive_weight;
+                        break;
                 }
+
                 if (y + 1 < map_height && (DirCount[y,x] != 1 || DirCount[y, x] != 2 || DirCount[y, x] != 0))
                     value[y + 1, x] -= negative_weight;
                 if (y + 1 < map_height && x + 1 < map_width && (DirCount[y, x] != 2 || DirCount[y, x] != 1 || DirCount[y, x] != 4)) 
@@ -174,6 +172,9 @@ public class PerlinNoiseMap : MonoBehaviour
         {
             for (int x =  0; x < map_width; x++)
             {
+                if (value[y, x] > 0 && value[y, x] <= 1)
+                    value[y, x] = 6 * Mathf.Pow(value[y, x], 5) - 15 * Mathf.Pow(value[y, x], 4) + 10 * Mathf.Pow(value[y, x], 3);
+
                 perlin_noise[y ,x] = (int)(Mathf.Round(value[y, x] * 3));
                 if (perlin_noise[y, x] > 3)
                     perlin_noise[y, x] = 3;
